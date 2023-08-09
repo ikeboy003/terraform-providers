@@ -26,6 +26,7 @@ func resourceVMJoinDomain() *schema.Resource {
 	return &schema.Resource{
 		Create: resourceVMJoinDomainCreate,
 		Delete: resourceVMJoinDomainDelete,
+
 		Schema: map[string]*schema.Schema{
 			"vm_name": {
 				Type:     schema.TypeString,

@@ -15,9 +15,9 @@ func TestResourceVMJoinDomainCreate(t *testing.T) {
 	m := interface{}(nil)
 	data.Set("vm_name", "test-vm")
 	data.Set("domain_name", "example.com")
-	data.Set("ou", "OU=Computers,DC=example,DC=com")
-	data.Set("username", "testuser")
-	data.Set("password", "testpassword")
+	data.Set("ou", "OU=SAP2022,DC=com")
+	data.Set("username", "joinUserName")
+	data.Set("password", "pw")
 
 	err := DomainJoinProvider.ResourceVMJoinDomainCreate(data, m)
 	if err != nil {
