@@ -1,4 +1,4 @@
-package main
+package myprovider
 
 import (
 	"fmt"
@@ -8,6 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
 
+// custom_vm_domain_join Provider
 func Provider() *schema.Provider {
 	return &schema.Provider{
 		ResourcesMap: map[string]*schema.Resource{
@@ -15,6 +16,12 @@ func Provider() *schema.Provider {
 		},
 	}
 }
+
+// Public wrapper function for actual resource
+func Resource() *schema.Resource {
+	return resourceVMJoinDomain()
+}
+
 func resourceVMJoinDomain() *schema.Resource {
 	return &schema.Resource{
 		Create: resourceVMJoinDomainCreate,
@@ -45,6 +52,12 @@ func resourceVMJoinDomain() *schema.Resource {
 	}
 }
 
+// Public Wrapper Function resourceVMJoinDomainCreate
+func ResourceVMJoinDomainCreate(d *schema.ResourceData, m interface{}) error {
+	return resourceVMJoinDomainCreate(d, m)
+}
+
+// Private function that joins the domain
 func resourceVMJoinDomainCreate(d *schema.ResourceData, m interface{}) error {
 	// Type Inference to type string
 	vmName := d.Get("vm_name").(string)
@@ -73,13 +86,18 @@ func resourceVMJoinDomainCreate(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
+// Public Wrappper Function
+func ResourceVMJoinDomainDelete(d *schema.ResourceData, m interface{}) error {
+	return resourceVMJoinDomainDelete(d, m)
+}
+
+// Private function that deletes the domain
 func resourceVMJoinDomainDelete(d *schema.ResourceData, m interface{}) error {
 	vmName := d.Id()
 
 	// Construct the PowerShell command to unjoin the VM from the domain
-	psCommand := fmt.Sprintf(
-		"Remove-Computer -UnjoinDomainCredential (Get-Credential) -Force -Verbose",
-	)
+
+	psCommand := "Remove-Computer -UnjoinDomainCredential (Get-Credential) -Force -Verbose"
 
 	// Execute the PowerShell command
 	cmd := exec.Command("powershell", "-Command", psCommand)
