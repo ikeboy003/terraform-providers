@@ -1,7 +1,7 @@
-package myprovider_test
+package domainjoinprovider_test
 
 import (
-	"domain-join/myprovider"
+	DomainJoinProvider "domain-join/domainjoinprovider"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -10,7 +10,7 @@ import (
 func TestResourceVMJoinDomainCreate(t *testing.T) {
 
 	// Create a ResourceData instance with test data
-	data := schema.TestResourceDataRaw(t, myprovider.Resource().Schema, nil)
+	data := schema.TestResourceDataRaw(t, DomainJoinProvider.Resource().Schema, nil)
 	// Interface is used to pas
 	m := interface{}(nil)
 	data.Set("vm_name", "test-vm")
@@ -19,7 +19,7 @@ func TestResourceVMJoinDomainCreate(t *testing.T) {
 	data.Set("username", "testuser")
 	data.Set("password", "testpassword")
 
-	err := myprovider.ResourceVMJoinDomainCreate(data, m)
+	err := DomainJoinProvider.ResourceVMJoinDomainCreate(data, m)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -34,11 +34,11 @@ func TestResourceVMJoinDomainCreate(t *testing.T) {
 func TestResourceVMJoinDomainDelete(t *testing.T) {
 
 	// Create a ResourceData instance with test data
-	data := schema.TestResourceDataRaw(t, myprovider.Resource().Schema, nil)
+	data := schema.TestResourceDataRaw(t, DomainJoinProvider.Resource().Schema, nil)
 	data.SetId("test-vm")
 
 	// Call the function being tested
-	err := myprovider.ResourceVMJoinDomainDelete(data, nil)
+	err := DomainJoinProvider.ResourceVMJoinDomainDelete(data, nil)
 
 	// Assert the result
 	if err != nil {
