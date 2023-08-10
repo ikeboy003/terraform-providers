@@ -14,20 +14,21 @@ func Provider() *schema.Provider {
 }
 
 /*
-To add more more parameters
-
+To add more more parameters, add below after schema with a trailing comma
+ex.
 	"param1": {
 					Type:     schema.TypeInt,
 					Required: true,
 				},
 
 Using this example
-
 	resource "resource_name" "example" {
 	  param1        = 1
 	}
+
 */
 
+// Rename Function to Match your needs
 func resouce() *schema.Resource {
 	return &schema.Resource{
 		Create: createResource,
