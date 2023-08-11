@@ -8,7 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
 
-// custom_vm_domain_join Provider
+// Provider returns the custom_vm_domain_join Provider instance.
 func Provider() *schema.Provider {
 	return &schema.Provider{
 		ResourcesMap: map[string]*schema.Resource{
@@ -17,15 +17,16 @@ func Provider() *schema.Provider {
 	}
 }
 
-// Public wrapper function for actual resource
+// Resource returns the custom_vm_domain_join Resource instance.
 func Resource() *schema.Resource {
 	return resourceVMJoinDomain()
 }
 
+// resourceVMJoinDomain defines the schema and operations for the custom_vm_domain_join resource.
 func resourceVMJoinDomain() *schema.Resource {
 	return &schema.Resource{
-		Create: resourceVMJoinDomainCreate,
-		Delete: resourceVMJoinDomainDelete,
+		Create: ResourceVMJoinDomainCreate,
+		Delete: ResourceVMJoinDomainDelete,
 
 		Schema: map[string]*schema.Schema{
 			"vm_name": {
@@ -53,14 +54,15 @@ func resourceVMJoinDomain() *schema.Resource {
 	}
 }
 
-// Public Wrapper Function resourceVMJoinDomainCreate
+// ResourceVMJoinDomainCreate is a public wrapper function for resourceVMJoinDomainCreateInternal.
 func ResourceVMJoinDomainCreate(d *schema.ResourceData, m interface{}) error {
-	return resourceVMJoinDomainCreate(d, m)
+	return resourceVMJoinDomainCreateInternal(d, m)
 }
 
-// Private function that joins the domain
-func resourceVMJoinDomainCreate(d *schema.ResourceData, m interface{}) error {
-	// Type Inference to type string
+// resourceVMJoinDomainCreateInternal is a private function that performs the actual VM domain join.
+// Implement logic here
+func resourceVMJoinDomainCreateInternal(d *schema.ResourceData, m interface{}) error {
+	// Type inference to convert interface{} to string
 	vmName := d.Get("vm_name").(string)
 	domainName := d.Get("domain_name").(string)
 	ou := d.Get("ou").(string)
@@ -87,13 +89,13 @@ func resourceVMJoinDomainCreate(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-// Public Wrappper Function
+// Public Wrapper Function for deleting a VM's domain join
 func ResourceVMJoinDomainDelete(d *schema.ResourceData, m interface{}) error {
-	return resourceVMJoinDomainDelete(d, m)
+	return resourceVMJoinDomainDeleteInternal(d, m)
 }
 
-// Private function that deletes the domain
-func resourceVMJoinDomainDelete(d *schema.ResourceData, m interface{}) error {
+// Private function that handles the removal of a VM from the domain
+func resourceVMJoinDomainDeleteInternal(d *schema.ResourceData, m interface{}) error {
 	vmName := d.Id()
 
 	// Construct the PowerShell command to unjoin the VM from the domain
